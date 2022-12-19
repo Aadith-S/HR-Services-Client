@@ -1,0 +1,19 @@
+.content{
+    height: 80vh;
+    width: 80vw;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.required:after{
+    content: "*";
+    color: red;
+}
+.form-group input{
+    border-radius: 11px;
+}
+.form-group select{
+    border-radius: 11px;
+}
