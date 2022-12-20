@@ -3,24 +3,22 @@ import { login } from "../../services/accountsHandler"
 import NavigationLogout from "../navigationLogout"
 import { EmployeeSidebar, HR_Sidebar, ManagerSidebar } from "../sidebar/sideBar";
 import { RequestLeave, ViewProfile } from "../essentials";
-
-
-
-let data = {
-    employee_id:'5',
-    name:'abishek',
-    address:'393, erode main road, thamaraipalayam, erode, tamilnadu',
-    department:'ess',
-    superior1:'1'
-}
-
+import {useQuery} from "react-query"
+import {profile} from "../../services/accountsHandler"
 function Manager_dash () {
+    const {data,isLoading,isError}  = useQuery("profile",profile);
+    if(isLoading){
+        return <>isLoading</>
+    }
+    if(isError){
+        return <>is Error</>
+    }
     return(
         <div>
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <ManagerSidebar/>
-            <ViewProfile data={data}/>
+            <ViewProfile data={data.data.data}/>
             </div>
         </div>
     )

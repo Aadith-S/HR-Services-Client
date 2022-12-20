@@ -4,7 +4,7 @@ import {useQuery} from "react-query";
 import './essentials.css'
 import { submitFeedback } from "./../services/feedbackHandler";
 import { useState } from "react";
-import { reqLeave } from "../services/leaveHandler";
+import { leaveApppost, reqLeave } from "../services/leaveHandler";
 import { RoleGet } from "../services/roleHandler";
 import { allEmployees,addEmployee } from "../services/employeeHandler";
 
@@ -140,11 +140,11 @@ export function Feedback() {
 
 
 export function AddEmployee() {
-    const {name,setName} = useState("");
-    const {address,setAddress} = useState("");
-    const {dept,setDept} = useState("");
-    const {superior,setSuperior} = useState();
-    const {role_id,setRoleId} = useState();
+    const [name,setName] = useState("");
+    const [address,setAddress] = useState("");
+    const [dept,setDept] = useState("");
+    const [superior,setSuperior] = useState();
+    const [role_id,setRoleId] = useState();
     const employeeinfo = useQuery("employeeinfo",allEmployees);
     const roleInfo = useQuery("roleinfo",RoleGet);
     function handleForm(e){
@@ -152,6 +152,7 @@ export function AddEmployee() {
         e.preventDefault();
         refetch();
     }
+    console.log(name,address,dept,superior,role_id);
     const {data,isLoading,refetch} = useQuery("addProfile",()=>{
         addEmployee({
             name : name,
@@ -170,10 +171,9 @@ export function AddEmployee() {
     if(roleInfo.isLoading){
         return <>Loading....</>
     }
-    console.log(roleInfo.data.data.data);
     const getRole = (obj,index)=>{
         return (
-            <option name="" id="" value={obj.roleId}>{obj.role_name}</option>
+            <option name="" id="" value={obj.role_id}>{obj.designation}</option>
         )
     }
     const getsuperior = (obj,index)=>{
@@ -202,13 +202,15 @@ export function AddEmployee() {
 
                         <div>
                             <label for="superior">Superior</label>
-                            <select name="" id="" onChange={e=>setSuperior(e.target.value)}>
+                            <select name="" id="" onChange={e=>setSuperior(e.target.value)} >
+                            <option disabled selected value></option>
                             {employeeinfo.data.data.data.map(getsuperior)}
                             </select>
                         </div>
                         <div>
                             <label for="role_id">RoleId </label>
-                            <select name="" id="" onChange={e=>setRoleId(e.target.value)}>
+                            <select name="" id="" onChange={e=>setRoleId(e.target.value)} >
+                                <option disabled selected value></option>
                             {roleInfo.data.data.data.map(getRole)}
                             </select>
                         </div>
@@ -328,7 +330,9 @@ export function ViewAttendance({ data }) {
 }
 
 
-export function ManagerLeaveView({data}){
+export function ManagerLeaveView({mdata}){
+    const [approvalStatus, setApproval] = useState("");
+    const [id,setId] = useState(0);
     let button = {
         border:"none",
         padding:"2px",
@@ -336,20 +340,61 @@ export function ManagerLeaveView({data}){
         borderRadius:"5px",
         width:"70px"
     }
-        const getOneRow = (obj, index) => {
+    const {isLoading,refetch} = useQuery("approval",()=>leaveApppost({
+        req_id : id,
+        status:approvalStatus
+    }),{
+        enabled : false
+    });
+    if(isLoading){
+        return <>Loading....</>
+    }
+        const getdirectRow = (obj, index) => {
             return (
                 <tr>
-                <td key={index}>{obj.employee_id}</td>
-                <td key={index}>{obj.employee.name}</td>
-                <td key={index}>{obj.employee.department}</td>
-                <td key={index}>{obj.employee.address}</td>
-                <td key={index}>{obj.from}</td>
-                <td key={index}>{obj.to}</td>
-                <td key={index}><button className="btn-success" style={button}>Approve</button></td>
-                <td key={index}><button className="btn-danger" style={button}>Reject</button></td>
+                <td key={index+1}>{obj.employee.employee_id}</td>
+                <td key={index+2}>{obj.employee.name}</td>
+                <td key={index+3}>{obj.employee.department}</td>
+                <td key={index+4}>{obj.employee.address}</td>
+                <td key={index+5}>{obj.from}</td>
+                <td key={index+6}>{obj.to}</td>
+                <td><button className="btn-success" id={obj.req_id} style={button} onClick={(e)=>{
+                    setApproval("A1");
+                    setId(e.target.id);
+                    refetch();
+                    console.log("fetched");
+                    }}>Approve</button></td>
+                <td><button className="btn-danger" id={obj.req_id} style={button} onClick={(e)=>{
+                    setApproval("R");
+                    setId(e.target.id);
+                    refetch();
+                    console.log("fetched");}}>Reject</button></td>
                 </tr>
             )
         }
+        const getindirectRow = (obj, index) => {
+            return (
+                <tr>
+                <td key={index+1}>{obj.employee_id}</td>
+                <td key={index+2}>{obj.employee.name}</td>
+                <td key={index+3}>{obj.employee.department}</td>
+                <td key={index+4}>{obj.employee.address}</td>
+                <td key={index+5}>{obj.from}</td>
+                <td key={index+6}>{obj.to}</td>
+                <td><button className="btn-success" id={obj.req_id} style={button} onClick={(e)=>{
+                    setApproval("A2");
+                    setId(e.target.id);
+                    refetch();
+                    console.log("fetched");}}>Approve</button></td>
+                <td><button className="btn-danger" id={obj.req_id} style={button} onClick={(e)=>{
+                    setApproval("R");
+                    setId(e.target.id);
+                    refetch();
+                    console.log("fetched");}}>Reject</button></td>
+                </tr>
+            )
+        }
+        console.log(approvalStatus);
         return (
             <div>
             <div class="container">
@@ -364,7 +409,19 @@ export function ManagerLeaveView({data}){
                         <th>From</th>
                         <th>To</th>
                     </tr>
-                    {data.map(getOneRow)}
+                    {mdata[0].map(getdirectRow)}
+                </table>
+                <center><h2>Indirect leave requests</h2></center>
+                <table class="table table-striped mt-4">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Address</th>
+                        <th>From</th>
+                        <th>To</th>
+                    </tr>
+                    {mdata[1].map(getindirectRow)}
                 </table>
             </div>
             </div>

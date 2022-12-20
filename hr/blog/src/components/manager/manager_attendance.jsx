@@ -1,41 +1,19 @@
 import NavigationLogout from "../navigationLogout";
-import { EmployeeSidebar, ManagerSidebar } from "../sidebar/sideBar";
+import { ManagerSidebar } from "../sidebar/sideBar";
 import { ViewAttendance } from "../essentials";
-
-
-
-let attendenceData = [
-    {
-        name:'abishek',
-        month:'Feb',
-        year:"2022",
-        workingdays:'27',
-        leaves:'24'
-    },
-    {
-        name:'abishek',
-        month:'Mar',
-        year:"2022",
-        workingdays:'28',
-        leaves:'20'
-    },
-    {
-        name:'abishek',
-        month:'April',
-        year:"2022",
-        workingdays:'25',
-        leaves:'24'
-    }
-]
-
+import { useQuery } from "react-query";
+import {AttendanceOne} from "../../services/attendanceHandler"
 function Manager_attendance(){
-
+    const {data,isLoading} = useQuery("attendance",AttendanceOne);
+    if(isLoading){
+        return <>Loading ....</>
+    }
     return(
         <div>
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <ManagerSidebar/>
-            <ViewAttendance data={attendenceData}/>
+            <ViewAttendance data={data.data.data}/>
             </div>
         </div>
     )

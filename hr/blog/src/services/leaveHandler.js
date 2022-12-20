@@ -9,4 +9,10 @@ async function viewLeaves(){
 async function allLeaves(){
     return await axios.get("/allLeaveRequests");
 }
-export {reqLeave,viewLeaves,allLeaves}
+async function leaveAppget(){
+    return await axios.get("/leaveApproval");
+}
+async function leaveApppost(data){
+    return await axios.post("/leaveApproval",data);
+}
+export {reqLeave,viewLeaves,allLeaves,leaveAppget,leaveApppost}

@@ -1,37 +1,20 @@
 import NavigationLogout from "../navigationLogout"
 import { EmployeeSidebar, ManagerSidebar } from "../sidebar/sideBar"
 import { Viewpayslip } from "../essentials"
-
-
-
-
-let payslipData = [
-    {
-        month:"jan",
-        year:"2022",
-        amountPaid:"20000",
-    },
-    {
-        month:"Feb",
-        year:"2022",
-        amountPaid:"22000",
-    },
-    {
-        month:"Mar",
-        year:"2022",
-        amountPaid:"30000",
-    },
- ]
-
+import { useQuery } from "react-query"
+import { viewPayslip } from "../../services/paySlipHandler"
 
 function Manager_ViewPayslip(){
-    
+    const {data,isLoading} = useQuery("Payslip",viewPayslip);
+    if(isLoading){
+        return <>Loading....</>
+    }
     return(
         <div>
             <NavigationLogout/>
             <div style={{display:"flex"}}>
                 <ManagerSidebar/>
-                <Viewpayslip data={payslipData}/>
+                <Viewpayslip data={data.data.data}/>
             </div>
         </div>
     )
