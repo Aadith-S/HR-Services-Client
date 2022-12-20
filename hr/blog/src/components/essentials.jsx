@@ -5,6 +5,8 @@ import './essentials.css'
 import { submitFeedback } from "./../services/feedbackHandler";
 import { useState } from "react";
 import { reqLeave } from "../services/leaveHandler";
+import { RoleGet } from "../services/roleHandler";
+import { allEmployees,addEmployee } from "../services/employeeHandler";
 
 export function ViewProfile({ data }) {
 
@@ -140,42 +142,79 @@ export function Feedback() {
 export function AddEmployee() {
     const {name,setName} = useState("");
     const {address,setAddress} = useState("");
+    const {dept,setDept} = useState("");
+    const {superior,setSuperior} = useState();
+    const {role_id,setRoleId} = useState();
+    const employeeinfo = useQuery("employeeinfo",allEmployees);
+    const roleInfo = useQuery("roleinfo",RoleGet);
+    function handleForm(e){
+        console.log("hlo");
+        e.preventDefault();
+        refetch();
+    }
+    const {data,isLoading,refetch} = useQuery("addProfile",()=>{
+        addEmployee({
+            name : name,
+            address : address,
+            department : dept,
+            superior : superior,
+            role_id : role_id
+        })
+    },
+    {
+        enabled : false
+    })
+    if(isLoading){
+        return <>Loading...</>
+    }
+    if(roleInfo.isLoading){
+        return <>Loading....</>
+    }
+    console.log(roleInfo.data.data.data);
+    const getRole = (obj,index)=>{
+        return (
+            <option name="" id="" value={obj.roleId}>{obj.role_name}</option>
+        )
+    }
+    const getsuperior = (obj,index)=>{
+        return (
+            <option name="" id="" value={obj.employee_id}>{obj.employee_id}. {obj.name}</option>
+        )
+    }
     return (
         <div style={{ width: '70vw', height: "80vh" }}>
             <center><h2 style={{ fontFamily: 'arial' }}>Add Employee</h2></center>
             <div class="row">
                 <div class="col-sm-6 offset-sm-3">
-                    <form method="post" >
+                    <form onSubmit={handleForm} >
                         <div>
                             <label for="name">Name</label>
-                            <input type="name" name="name" id="email" class="form-control" />
+                            <input type="name" name="name" id="email" class="form-control" onChange={e=>setName(e.target.value)} />
                         </div>
                         <div>
                             <label for="address">Address</label>
-                            <input type="text" name="address" id="addresss" class="form-control" />
+                            <input type="text" name="address" id="addresss" class="form-control"onChange={e=>setAddress(e.target.value)} />
                         </div>
                         <div>
                             <label for="department">Department</label>
-                            <input type="text" name="department" id="department" class="form-control" />
+                            <input type="text" name="department" id="department" class="form-control" onChange={e=>setDept(e.target.value)}/>
                         </div>
 
                         <div>
-                            <label for="superior1">Superior1</label>
-                            <input type="text" name="superior1" id="superior1" class="form-control" />
-                        </div>
-                        <div>
-                            <label for="superior2">Superior2</label>
-                            <input type="text" name="superior2" id="superior2" class="form-control" />
+                            <label for="superior">Superior</label>
+                            <select name="" id="" onChange={e=>setSuperior(e.target.value)}>
+                            {employeeinfo.data.data.data.map(getsuperior)}
+                            </select>
                         </div>
                         <div>
                             <label for="role_id">RoleId </label>
-                            <input type="integer" name="role_id" id="role_id" class="form-control" />
+                            <select name="" id="" onChange={e=>setRoleId(e.target.value)}>
+                            {roleInfo.data.data.data.map(getRole)}
+                            </select>
                         </div>
                         <br />
 
-                        <div class=" offset-0">
-                            <button class="btn btn-primary  col-12  ">Save</button>
-                        </div>
+                        <input type="submit" className="btn btn-primary col-4" value="Submit" />
 
                     </form>
                 </div>
@@ -371,10 +410,10 @@ export function ViewAllpayslip({data}){
     const getOneRow = (obj, index) => {
         return (
             <tr>
-            <td key={index}>{obj.employee_id}</td>
-            <td key={index}>{obj.name}</td>
-            <td key={index}>{obj.month}</td>
-            <td key={index}>{obj.year}</td>
+            <td key={index}>{obj.attendence.employee_id}</td>
+            <td key={index}>{obj.attendence.employee.name}</td>
+            <td key={index}>{obj.attendence.workingDay.month}</td>
+            <td key={index}>{obj.attendence.workingDay.year}</td>
             <td key={index}>{obj.amountPaid}</td>
             </tr>
         )
@@ -443,10 +482,10 @@ export function ViewAllAttendance({data}){
         return (
             <tr>
             <td key={index}>{obj.employee_id}</td>
-            <td key={index}>{obj.name}</td>
-            <td key={index}>{obj.month}</td>
-            <td key={index}>{obj.year}</td>
-            <td key={index}>{percentage}</td>
+            <td key={index}>{obj.employee.name}</td>
+            <td key={index}>{obj.workingDay.month}</td>
+            <td key={index}>{obj.workingDay.year}</td>
+            <td key={index}>{Math.floor((obj.workingDay.workingDays-obj.leaves)/obj.workingDay.workingDays * 100)+"%"}</td>
             </tr>
         )
     }

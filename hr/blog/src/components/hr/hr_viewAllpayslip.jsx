@@ -1,43 +1,20 @@
 import NavigationLogout from "../navigationLogout"
 import { EmployeeSidebar, HR_Sidebar } from "../sidebar/sideBar"
 import { ViewAllpayslip, Viewpayslip } from "../essentials"
-
-
-
-
-let payslipData = [
-    {
-        employee_id:'1',
-        name:"abishek",
-        month:"jan",
-        year:"2022",
-        amountPaid:"20000",
-    },
-    {
-        employee_id:'2',
-        name:"kishore",
-        month:"Feb",
-        year:"2022",
-        amountPaid:"22000",
-    },
-    {
-        employee_id:'3',
-        name:"kumar",
-        month:"Mar",
-        year:"2022",
-        amountPaid:"30000",
-    },
- ]
-
+import { useQuery } from "react-query"
+import { allPaySlips } from "../../services/paySlipHandler"
 
 function HR_ViewAllPayslip(){
-    
+    const {data,isLoading} = useQuery("AllPay",allPaySlips);
+    if(isLoading){
+        return <>Loading...</>
+    }
     return(
         <div>
             <NavigationLogout/>
             <div style={{display:"flex"}}>
                 <HR_Sidebar/>
-                <ViewAllpayslip data={payslipData}/>
+                <ViewAllpayslip data={data.data.data}/>
             </div>
         </div>
     )

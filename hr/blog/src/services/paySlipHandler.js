@@ -3,5 +3,7 @@ import axios from "./axiosInstances"
 async function viewPayslip(){
     return await axios.get("/viewPaySlips");
 }
-
-export {viewPayslip}
+async function allPaySlips(){
+    return await axios.get("/viewAllPaySlips");
+}
+export {viewPayslip,allPaySlips}

@@ -5,5 +5,7 @@ async function allEmployees(){
     console.log(result);
     return result;
 }
-
-export {allEmployees};
+async function addEmployee(data){
+    return axios.post("/addEmployee",data);
+}
+export {allEmployees,addEmployee};

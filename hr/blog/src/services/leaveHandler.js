@@ -6,4 +6,7 @@ async function reqLeave(data){
 async function viewLeaves(){
     return await axios.get("/viewLeaveRequests");
 }
-export {reqLeave,viewLeaves}
+async function allLeaves(){
+    return await axios.get("/allLeaveRequests");
+}
+export {reqLeave,viewLeaves,allLeaves}
