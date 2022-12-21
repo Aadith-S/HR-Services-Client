@@ -32,6 +32,7 @@ export function ManagerSidebar() {
                 <li><a href="dash" className="tag"><span></span><span>View profile</span></a></li>
                 <li><a href="leaveView" className="tag"><span></span><span>View  requests</span></a></li>
                 <li><a href="reqLeave"className="tag"><span></span><span>Request leave</span></a></li>
+                <li><a href="viewLeave"className="tag"><span></span><span>View your old leave requests</span></a></li>
                 <li><a href="viewPayslip"className="tag"><span></span><span>View paysip</span></a></li>
                 <li><a href="attendance"className="tag"><span></span><span>View attendence</span></a></li>
                 <li><a href="feeback"className="tag"><span></span><span>Give a feedback</span></a></li>
