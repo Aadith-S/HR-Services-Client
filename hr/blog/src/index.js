@@ -25,6 +25,8 @@ import HR_ViewAllLeaveReq from "./components/hr/hr_viewAllLeave";
 import HR_viewAllAttendance from "./components/hr/hr_viewAllAttendance";
 import { QueryClientProvider,QueryClient } from "react-query";
 import Manager_viewLeave from "./components/manager/manager_viewLeaveReq";
+import HR_viewAllFeedback from "./components/hr/hr_viewAllFeedbacks";
+import HR_viewBank from "./components/hr/hr_viewBankDetails";
 
 const queryClinet = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -53,7 +55,8 @@ root.render(
       <Route path="/hr/viewAllPayslip" element={<HR_ViewAllPayslip/>}/>
       <Route path="/hr/viewAllLeave" element={<HR_ViewAllLeaveReq/>}/>
       <Route path="/hr/viewAllAttendance" element={<HR_viewAllAttendance/>}/>
-      
+      <Route path="/hr/viewAllFeedback" element={<HR_viewAllFeedback/>}/>
+      <Route path="/hr/viewBank" element={<HR_viewBank/>}/>
     </Routes>
   </Router>
   </QueryClientProvider>

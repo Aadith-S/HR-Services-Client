@@ -1,5 +1,5 @@
 import React from "react";
-import { json } from "react-router-dom";
+import { redirect,useNavigate } from "react-router-dom";
 import {useMutation, useQuery} from "react-query";
 import './essentials.css'
 import { submitFeedback } from "./../services/feedbackHandler";
@@ -10,9 +10,10 @@ import { allEmployees,addEmployee } from "../services/employeeHandler";
 import { updateAttendance } from "../services/attendanceHandler";
 import { updatePaySlips } from "../services/paySlipHandler";
 
-export function ViewProfile({ data }) {
+export function ViewProfile({ data ,hide}) {
     const attendence = useMutation(updateAttendance);
     const paySlip = useMutation(updatePaySlips);
+    const classnames = "btn btn-primary col-4 m-5 "+hide+"";
     return (
         <div className="content">
             <h1 class="text-center">Profile view</h1>
@@ -37,8 +38,8 @@ export function ViewProfile({ data }) {
                 </table>
             </div>
             <div>
-            <button className="btn btn-primary col-4 m-5" onClick={attendence.mutate}>Update Attendance</button>
-            <button className="btn btn-primary col-4 " onClick={paySlip.mutate}>Update Pay Slip</button>
+            <button className={classnames} onClick={attendence.mutate}>Update Attendance</button>
+            <button className={classnames} onClick={paySlip.mutate}>Update Pay Slip</button>
             </div>
         </div>
     )
@@ -591,6 +592,10 @@ export function ViewAllEmployee({data}){
 
 
 export function ViewAllpayslip({data}){
+    const navigate = useNavigate();
+    function bankDet(e){
+        navigate("/hr/viewBank",{state : {id : e.target.id}})
+    }
     const getOneRow = (obj, index) => {
         return (
             <tr>
@@ -599,6 +604,7 @@ export function ViewAllpayslip({data}){
             <td key={index}>{obj.attendence.workingDay.month}</td>
             <td key={index}>{obj.attendence.workingDay.year}</td>
             <td key={index}>{obj.amountPaid}</td>
+            <td key={index}><button className="btn btn-primary" id={obj.attendence.employee_id} onClick={bankDet}>View Bank Details</button></td>
             </tr>
         )
     }
@@ -690,4 +696,120 @@ export function ViewAllAttendance({data}){
 
         </div>
     )
+}
+export function ViewAllFeedback({data}){
+
+
+
+    const getOneRow = (obj, index) => {
+
+       
+
+        return (
+
+            <tr>
+
+            <td key={index}>{obj.employee.employee_id}</td>
+
+            <td key={index}>{obj.employee.name}</td>
+
+            <td key={index}>{obj.employee.department}</td>
+
+            <td key={index}>{obj.content}</td>
+
+            </tr>
+
+        )
+
+    }
+
+
+
+    return(
+
+        <div class="container">
+
+        <br />
+
+        <center><h2>Employee Feedback</h2></center>
+
+        <table class="table table-striped mt-4">
+
+            <tr>
+
+                <th>Employee ID</th>
+
+                <th>Name</th>
+
+                <th>Department</th>
+
+                <th>Feedback</th>
+
+            </tr>
+
+            {data && data.map(getOneRow)}
+
+        </table>
+        {!data && <div className="alert alert-danger">No data Found</div>}
+
+
+    </div>
+
+    )
+
+}
+
+
+
+
+export function ViewBank({data}){
+return(
+
+        <div class="container">
+
+        <br />
+
+        <center><h2>Employee Bank Account Details</h2></center>
+
+        <table class="table table-striped mt-4">
+
+            <tr>
+
+                <th>Employee ID</th>
+
+                <th>Name</th>
+
+                <th>Department</th>
+
+                <th>Bank Ac.No</th>
+
+                <th>IFSC Code</th>
+
+                <th>Bank Name</th>
+
+            </tr>
+
+            <tr>
+
+            <td>{data.employee.employee_id}</td>
+
+            <td>{data.employee.name}</td>
+
+            <td>{data.employee.department}</td>
+
+            <td>{data.account_number}</td>
+
+            <td>{data.ifsc}</td>
+
+            <td>{data.bankName}</td>
+            </tr>
+
+        </table>
+
+
+
+    </div>
+
+    )
+
 }
