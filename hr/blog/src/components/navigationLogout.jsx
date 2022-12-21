@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
+import hrlogo from './HR_logo.png';
 
 const logo = {
     height:"15vh",
@@ -18,15 +18,17 @@ const logoLink = {
   display:"flex",
   flexDirection:"row",
   alignContent:"center",
-  justifyContent:"center"
+  justifyContent:"center",
+  color:"white"
 }
 
 const logoutButton = {
   textDecoration:"none",
   color:"white",
-  marginLeft:"80vw",
+  marginLeft:"70vw",
   marginTop:"6vh"
 }
+
 
 function NavigationLogout() {
   function logout(){
@@ -36,10 +38,12 @@ function NavigationLogout() {
   }
   return (
     <div style={navbar}>
-    <NavLink to="/dashboard" style={logoLink}>
-    <img src="https://cdn-icons-png.flaticon.com/512/5869/5869497.png" style={logo} alt="LOGO"/>
+    <NavLink to="" style={logoLink}>
+    <img src={hrlogo} style={logo} alt="LOGO"/>
+    <div style={{width:'105px',display:'flex',justifyContent:'center',alignItems:'center'}}><h2>MY HR</h2></div>
     </NavLink>
-    <NavLink to="/login"  style={logoutButton} onClick={logout}>
+    
+    <NavLink to="/logout"  style={logoutButton} onClick={logout}>
       <h3>Logout</h3>
     </NavLink>
   </div>

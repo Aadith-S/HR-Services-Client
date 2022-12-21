@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-
+import hrlogo from './HR_logo.png';
 
 const logo = {
     height:"15vh",
-    marginTop:"2vh"
+    marginTop:"2v h"
 }
 
 const logoName = {
@@ -27,15 +27,17 @@ const logoLink = {
   display:"flex",
   flexDirection:"row",
   alignContent:"center",
-  justifyContent:"center"
+  justifyContent:"center",
+  color:'white'
 }
 
 function Navigation() {
   return (
     <div style={navbar}>
-      <NavLink to="/" style={logoLink}>
-      <img src="https://cdn-icons-png.flaticon.com/512/5869/5869497.png" style={logo} alt="LOGO"/>  
-      </NavLink>
+       <NavLink to="" style={logoLink}>
+    <img src={hrlogo} style={logo} alt="LOGO"/>
+    <div style={{width:'105px',display:'flex',justifyContent:'center',alignItems:'center'}}><h2>MY HR</h2></div>
+    </NavLink>
     </div>
   );
 }
