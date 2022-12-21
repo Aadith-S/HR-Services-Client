@@ -11,7 +11,6 @@ function Manager_viewReq(){
     if(isLoading){
         return <>Loading....</>
     }
-    console.log(data.data.data);
     return(
         <div>
             <NavigationLogout/>

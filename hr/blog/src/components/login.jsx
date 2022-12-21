@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { login, redirectdash } from "../services/accountsHandler"
+import { useMutation, useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
+import { loginform, redirectdash } from "../services/accountsHandler"
 import Navigation from "./navigation";
 
 const bottomDiv = {
@@ -47,28 +48,29 @@ const h1 = {
   marginLeft: "16vw"
 }
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
-  const [link , setLink] = useState("");
-  async function HandleForm(e) {
+  const login = useMutation(loginform)
+  function HandleForm(e) {
     e.preventDefault();
-    var res = await login({
+    login.mutate({
       email: email,
       password: password
     })
-    if(!res.data.success){
-      setErrorMessage(res.errors[0]);
+  }
+  if(login.isSuccess){
+    if(!login.data.data.success){
+      setErrorMessage(login.data.data.errors[0]);
       return;
     }
-    localStorage.setItem('token', res.data.data);
-    setLoggedIn(true);
-    console.log(loggedIn);
-    var links = await redirectdash();
-    console.log("link");
-    console.log(links);
-    setLink(links)
+    else{
+      localStorage.setItem('token', login.data.data.data);
+      setLoggedIn(true);
+      navigate("/otp");
+    }
   }
   return (
     <div>
@@ -104,7 +106,6 @@ function Login() {
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             <input type="submit" class="btn btn-primary btn-block mb-4" style={{ width: "40vw" }} />
           </form>
-          {loggedIn && <Navigate to={link}/>}
         </div >
       </div >
     </div >

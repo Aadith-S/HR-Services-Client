@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { useMutation } from "react-query";
+import { redirectdash } from "../services/accountsHandler";
 import Navigation from "./navigation";
+import {useNavigate} from "react-router-dom"
 
 const bottomDiv = {
   height: "80vh",
@@ -54,7 +57,18 @@ let row = {
 
 
 function Otp() {
-
+  const navigate = useNavigate();
+  const {mutate,data,isSuccess} = useMutation(redirectdash);
+  const [otp,setOtp] = useState();
+  function handleForm(e){
+  e.preventDefault();
+  mutate(otp);
+  console.log("link");
+  console.log(data);
+  if(isSuccess){
+    navigate(data);
+  }
+  }
   return (
     <div>
       <Navigation />
@@ -66,10 +80,10 @@ function Otp() {
           <br />
           <h1 style={{marginLeft:'16vw'}}>OTP</h1>
           <br />
-          <form>
+          <form onSubmit={handleForm}>
             <div style={row}>
             <div class="form-outline mb-4" style={{ width: "20vw" }}>
-              <label class="form-label" for="email">Enter the otp</label>
+              <label class="form-label" for="email" onChange={e=>{setOtp(e.target.value)}}>Enter the otp</label>
               <input type="text"
                 name="otp"
                 class="form-control" required
