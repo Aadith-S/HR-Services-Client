@@ -51,6 +51,7 @@ export function HR_Sidebar() {
                 <li><a href="viewAllLeave"className="tag"><span></span><span>View leave requests</span></a></li>
                 <li><a href="viewAllPayslip"className="tag"><span></span><span>View payslip</span></a></li>
                 <li><a href="viewAllAttendance"className="tag"><span></span><span>View attendence</span></a></li>
+                <li><a href="viewAllFeedback"className="tag"><span></span><span>View All Feedbacks</span></a></li>
             </ul>
             </div>
     );
