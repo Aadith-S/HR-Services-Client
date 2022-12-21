@@ -5,7 +5,7 @@ import './essentials.css'
 import { submitFeedback } from "./../services/feedbackHandler";
 import { useState } from "react";
 import { leaveApppost, reqLeave } from "../services/leaveHandler";
-import { RoleGet } from "../services/roleHandler";
+import { RoleGet, roleinfoget } from "../services/roleHandler";
 import { allEmployees,addEmployee } from "../services/employeeHandler";
 
 export function ViewProfile({ data }) {
@@ -148,38 +148,37 @@ export function Feedback() {
 
 
 export function AddEmployee() {
-    const [name,setName] = useState("");
-    const [address,setAddress] = useState("");
-    const [dept,setDept] = useState("");
-    const [superior,setSuperior] = useState();
-    const [role_id,setRoleId] = useState();
+    // const [name,setName] = useState("");
+    // const [address,setAddress] = useState("");
+    // const [dept,setDept] = useState("");
+    // const [superior,setSuperior] = useState();
+    // const [role_id,setRoleId] = useState();
     const employeeinfo = useQuery("employeeinfo",allEmployees);
-    const roleInfo = useQuery("roleinfo",RoleGet);
+    const desigInfo = useQuery("desiginfo",RoleGet);
+    const roleInfo = useQuery("roleinfo",roleinfoget)
+    const [info,setInfo] = useState({
+        name : "",
+        address : "",
+        dept : "",
+        superior : 0,
+        desg_id : 0,
+        role_id : 0,
+        accNo : "",
+        ifsc : "",
+        BName : "",
+        email : "",
+        password : ""
+    })
     function handleForm(e){
         console.log("hlo");
         e.preventDefault();
-        refetch();
+        mutate(info);
     }
-    console.log(name,address,dept,superior,role_id);
-    const {data,isLoading,refetch} = useQuery("addProfile",()=>{
-        addEmployee({
-            name : name,
-            address : address,
-            department : dept,
-            superior : superior,
-            role_id : role_id
-        })
-    },
-    {
-        enabled : false
-    })
-    if(isLoading){
-        return <>Loading...</>
-    }
+    const {mutate} = useMutation(addEmployee);
     if(roleInfo.isLoading){
         return <>Loading....</>
     }
-    const getRole = (obj,index)=>{
+    const getdesignation = (obj,index)=>{
         return (
             <option name="" id="" value={obj.role_id}>{obj.designation}</option>
         )
@@ -189,46 +188,159 @@ export function AddEmployee() {
             <option name="" id="" value={obj.employee_id}>{obj.employee_id}. {obj.name}</option>
         )
     }
+    const getRole = (obj,index)=>{
+        return (
+            <option name="" id="" value={obj.role_id}>{obj.role_name}</option>
+        )
+    }
+    console.log(info);
     return (
-        <div style={{ width: '70vw', height: "80vh" }}>
-            <center><h2 style={{ fontFamily: 'arial' }}>Add Employee</h2></center>
-            <div class="row">
-                <div class="col-sm-6 offset-sm-3">
-                    <form onSubmit={handleForm} >
-                        <div>
-                            <label for="name">Name</label>
-                            <input type="name" name="name" id="email" class="form-control" onChange={e=>setName(e.target.value)} />
-                        </div>
-                        <div>
-                            <label for="address">Address</label>
-                            <input type="text" name="address" id="addresss" class="form-control"onChange={e=>setAddress(e.target.value)} />
-                        </div>
-                        <div>
-                            <label for="department">Department</label>
-                            <input type="text" name="department" id="department" class="form-control" onChange={e=>setDept(e.target.value)}/>
-                        </div>
+        // <div style={{ width: '70vw', height: "80vh" }}>
+        //     <center><h2 style={{ fontFamily: 'arial' }}>Add Employee</h2></center>
+        //     <div class="row">
+        //         <div class="col-sm-6 offset-sm-3">
+        //             <form onSubmit={handleForm} >
+        //                 <div>
+        //                     <label for="name">Name</label>
+        //                     <input type="name" name="name" id="email" class="form-control" onChange={e=>setName(e.target.value)} />
+        //                 </div>
+        //                 <div>
+        //                     <label for="address">Address</label>
+        //                     <input type="text" name="address" id="addresss" class="form-control"onChange={e=>setAddress(e.target.value)} />
+        //                 </div>
+        //                 <div>
+        //                     <label for="department">Department</label>
+        //                     <input type="text" name="department" id="department" class="form-control" onChange={e=>setDept(e.target.value)}/>
+        //                 </div>
 
-                        <div>
-                            <label for="superior">Superior</label>
-                            <select name="" id="" onChange={e=>setSuperior(e.target.value)} >
-                            <option disabled selected value></option>
-                            {employeeinfo.data.data.data.map(getsuperior)}
-                            </select>
-                        </div>
-                        <div>
-                            <label for="role_id">RoleId </label>
-                            <select name="" id="" onChange={e=>setRoleId(e.target.value)} >
-                                <option disabled selected value></option>
-                            {roleInfo.data.data.data.map(getRole)}
-                            </select>
-                        </div>
-                        <br />
+        //                 <div>
+        //                     <label for="superior">Superior</label>
+        //                     <select name="" id="" onChange={e=>setSuperior(e.target.value)} >
+        //                     <option disabled selected value></option>
+        //                     {employeeinfo.data.data.data.map(getsuperior)}
+        //                     </select>
+        //                 </div>
+        //                 <div>
+        //                     <label for="role_id">RoleId </label>
+        //                     <select name="" id="" onChange={e=>setRoleId(e.target.value)} >
+        //                         <option disabled selected value></option>
+        //                     {roleInfo.data.data.data.map(getdesignation)}
+        //                     </select>
+        //                 </div>
+        //                 <br />
 
-                        <input type="submit" className="btn btn-primary col-4" value="Submit" />
+        //                 <input type="submit" className="btn btn-primary col-4" value="Submit" />
 
-                    </form>
+        //             </form>
+        //         </div>
+        //     </div>
+        // </div>
+        <div className="main">
+            <form onSubmit={handleForm}>
+            <div className="container1">
+                <div className="field">
+                    <label style = {{"margin-right":"15px"}}  htmlFor="Name">NAME :</label>
+                    <input type="text" id="Name" onChange={e=>setInfo((prev)=>({...prev,name : e.target.value}))}/>
+                </div>
+                <div className="gap"></div>
+                <div className="dob">
+                    <label style = {{"margin-right":"83px"}}  htmlFor="dateofbirth">DOB :</label>
+                    <input type="date" id="dateOfBirth" />
+                </div>
+                <div className="gap"></div>
+                <div className="type">
+                    <label style = {{"margin-right":"46px"}}  htmlFor="gender">GENDER :</label>
+                    <select id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div className="gap"></div>
+                <div className="field">
+                    <label style = {{"margin-right":"36px"}}  htmlFor="address">ADDRESS :</label>
+                    <input type="text" id="address" onChange={e=>setInfo((prev)=>({...prev,address : e.target.value}))}/>
+                </div>
+                <div className="gap"></div>
+                <br></br>
+                <div className="bank">
+                <div className="field">
+                    <label style = {{"margin-right":"22px","margin-left":"60px","color":"rgb(88,227,104)"}}  htmlFor="city">BANK NAME :</label>
+
+                    <br></br>
+                    <select id="cars" style = {{"margin-left":"60px","font-size":"20px"}} onChange={e=>setInfo((prev)=>({...prev,BName : e.target.value}))}>
+    
+                       <option value="sbi">STATE BANK OF INDIA</option>
+                       <option value="fdrl">FEDERAL BANK</option>
+                       <option value="hdfc">HDFC BANK</option>
+                      <option value="canera">CANERA BANKL</option>
+                      </select>
+                </div>
+                <div className="gap"></div>
+                <div className="field">
+                    <label style = {{"margin-right":"10px","margin-left":"60px","color":"rgb(88,227,104)"}}  htmlFor="pincode">BANK A/C NO :</label>
+                    <input type="text" id="acnumber" style = {{"margin-left":"60px"}} onChange={e=>setInfo((prev)=>({...prev,accNo : e.target.value}))}/>
+                </div>
+                <div className="gap"></div>
+                
+
+                <div className="field">
+                    <label style = {{"margin-right": "40px","margin-left":"60px","color":"rgb(88,227,104)"}}  htmlFor="country">IFSC CODE :</label>
+                    <input type="text" id="ifsc" style = {{"margin-left":"60px"}} onChange={e=>setInfo((prev)=>({...prev,ifsc : e.target.value}))}/>
                 </div>
             </div>
+            </div>
+
+            <div className="container2">
+            <div className="field">
+                    <label style = {{"margin-right":"40px"}}  htmlFor="state">EMAIL ID :</label>
+                    <input type="text" id="state" onChange={e=>setInfo((prev)=>({...prev,email : e.target.value}))}/>
+                </div>
+                <div className="gap"></div>
+                <div className="field">
+                    <label style = {{"margin-right":"40px"}}  htmlFor="state">Password:</label>
+                    <input type="text" id="state" onChange={e=>setInfo((prev)=>({...prev,password : e.target.value}))}/>
+                </div>
+                <div className="gap"></div>
+            <div className="field">
+                    <label style = {{"margin-right":"80px"}}  htmlFor="email">Role:</label>
+                    <select name="" id="" onChange={e=>setInfo((prev)=>({...prev,role_id : e.target.value}))}>
+                    <option disabled selected value></option>
+                    {roleInfo.data.data.data.map(getRole)}
+                    </select>
+                </div>
+                <div className="gap"></div>
+            
+                <div className="department">
+                    <label style = {{"margin-right":"12px"}}  htmlFor="department">Department :</label>
+                    <select id="department" placeholder="choose department" onChange={e=>setInfo((prev)=>({...prev,dept : e.target.value}))}>
+                        
+                        <option value="dts">DTS</option>
+                        <option value="vvd">VVD</option>
+                        <option value="pes">PES</option>
+                    </select>
+                </div>
+                <div className="gap"></div>
+                <div className="field">
+                    <label style = {{"margin-right":"83px"}}  htmlFor="role" >Designation :</label>
+                    <select name="" id="" onChange={e=>setInfo((prev)=>({...prev,desg_id : e.target.value}))}>
+                    <option disabled selected value></option>
+                    {desigInfo.data.data.data.map(getdesignation)}
+                    </select>
+                </div>
+                <div className="gap"></div>
+                <div className="field">
+                    <label style = {{"margin-right":"20px"}}  htmlFor="superior1" onChange={e=>setInfo({superior : e.target.value})}>Superior(1) :</label>
+                    <select name="" id="" onChange={e=>setInfo((prev)=>({...prev,superior : e.target.value}))}>
+                    <option disabled selected value></option>
+                    {employeeinfo.data.data.data.map(getsuperior)}
+                    </select>
+                </div>
+                <div className="button">
+                <button class="button-30" role="button">Register</button>
+                </div>
+            </div>
+            </form>
         </div>
     )
 }
