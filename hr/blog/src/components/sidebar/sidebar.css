@@ -29,9 +29,9 @@
     }
     
     .sidebar li:hover{
-    background-color:black;
-    padding:10px;
-    color: white;
+    background-color:white;
+    padding:20px;
+    color: black;
     }
     
    .tag{
@@ -40,8 +40,12 @@
    }
     a:hover{
     text-decoration: none;
-    color: white;
+    color: black;
    }
    .spanTag{
     font-size: px;
+   }
+   a:hover{
+    text-decoration: none;
+    color: black;
    }
