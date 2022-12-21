@@ -7,9 +7,12 @@ import { useState } from "react";
 import { leaveApppost, reqLeave } from "../services/leaveHandler";
 import { RoleGet, roleinfoget } from "../services/roleHandler";
 import { allEmployees,addEmployee } from "../services/employeeHandler";
+import { updateAttendance } from "../services/attendanceHandler";
+import { updatePaySlips } from "../services/paySlipHandler";
 
 export function ViewProfile({ data }) {
-
+    const attendence = useMutation(updateAttendance);
+    const paySlip = useMutation(updatePaySlips);
     return (
         <div className="content">
             <h1 class="text-center">Profile view</h1>
@@ -32,6 +35,10 @@ export function ViewProfile({ data }) {
                         <td>{data.department}</td>
                     </tr></tbody>
                 </table>
+            </div>
+            <div>
+            <button className="btn btn-primary col-4 m-5" onClick={attendence.mutate}>Update Attendance</button>
+            <button className="btn btn-primary col-4 " onClick={paySlip.mutate}>Update Pay Slip</button>
             </div>
         </div>
     )
@@ -160,9 +167,9 @@ export function AddEmployee() {
         name : "",
         address : "",
         dept : "",
-        superior : 0,
-        desg_id : 0,
-        role_id : 0,
+        superior : null,
+        desg_id : null,
+        role_id : null,
         accNo : "",
         ifsc : "",
         BName : "",

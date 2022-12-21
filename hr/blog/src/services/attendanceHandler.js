@@ -6,4 +6,7 @@ async function AttendanceOne(){
 async function AllAttendance(){
     return await axios.get("/viewAllAttendance");
 }
-export {AttendanceOne,AllAttendance}
+async function updateAttendance(){
+    return await axios.post("/addAttendance")
+}
+export {AttendanceOne,AllAttendance,updateAttendance}

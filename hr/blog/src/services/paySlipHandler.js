@@ -6,4 +6,7 @@ async function viewPayslip(){
 async function allPaySlips(){
     return await axios.get("/viewAllPaySlips");
 }
-export {viewPayslip,allPaySlips}
+async function updatePaySlips(){
+    return await axios.post("/addPaySlip");
+}
+export {viewPayslip,allPaySlips,updatePaySlips}
