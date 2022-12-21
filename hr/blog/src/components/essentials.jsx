@@ -1,6 +1,6 @@
 import React from "react";
 import { json } from "react-router-dom";
-import {useQuery} from "react-query";
+import {useMutation, useQuery} from "react-query";
 import './essentials.css'
 import { submitFeedback } from "./../services/feedbackHandler";
 import { useState } from "react";
@@ -39,27 +39,35 @@ export function ViewProfile({ data }) {
 
 
 export function RequestLeave() {
-    function reqsub(e){
-        e.preventDefault();
-        refetch();
-    }
     const [from,setfrom] = useState("");
     const [to,setto] = useState("");
     const [type,setType] = useState("");
     const [reason,setReason] = useState("");
-    console.log(type);
-    const {data,isLoading,refetch} = useQuery("requestLeave",()=>reqLeave({
-        from : from,
-        to : to,
-        type : type,
-        reason : reason
-    }),
-    {
-        enabled : false
-    })
-    if(isLoading) {
-        return <>Loading....</>
+    const [submitted,setSubmitted] = useState(false);
+    function reqsub(e){
+        e.preventDefault();
+        mutate({
+            from : from,
+            to : to,
+            type : type,
+            reason : reason
+        });
+        setSubmitted(true);
     }
+    console.log(type);
+    // const {data,isLoading,refetch} = useQuery("requestLeave",()=>reqLeave({
+    //     from : from,
+    //     to : to,
+    //     type : type,
+    //     reason : reason
+    // }),
+    // {
+    //     enabled : false
+    // })
+    // if(isLoading) {
+    //     return <>Loading....</>
+    // }
+    const {mutate} = useMutation(reqLeave)
     return (
         <div className="content">
             <div style={{ width: "80vw", height: "5vh" }}>
@@ -94,7 +102,7 @@ export function RequestLeave() {
                         <input type="submit" class="btn btn-primary btn-block mb-4" />
                     </div>
                 </form>
-                {data && <div className="alert alert-success">Request Submitted</div>}
+                {submitted && <div className="alert alert-success">Request Submitted</div>}
             </div>
             </center>
         </div>
@@ -298,7 +306,6 @@ export function Viewpayslip({ data }) {
 
 
 export function ViewAttendance({ data }) {
-
     const getOneRow = (obj, index) => {
         return (
             <tr>
@@ -331,8 +338,34 @@ export function ViewAttendance({ data }) {
 
 
 export function ManagerLeaveView({mdata}){
-    const [approvalStatus, setApproval] = useState("");
-    const [id,setId] = useState(0);
+    function handleRej(e){
+        setData({
+            req_id : e.target.id,
+            status : "R"
+        })
+        mutate(data);
+        console.log(data);
+    }
+    function handleA1(e){
+        setData({
+            req_id : e.target.id,
+            status : "A1"
+        })
+        mutate(data);
+        console.log(data);
+    }
+    function handleA2(e){
+        setData({
+            req_id : e.target.id,
+            status : "A2"
+        })
+        mutate(data);
+        console.log(data);
+    }
+    const [data,setData] = useState({
+        req_id : 0,
+        status : ""
+    });
     let button = {
         border:"none",
         padding:"2px",
@@ -340,15 +373,7 @@ export function ManagerLeaveView({mdata}){
         borderRadius:"5px",
         width:"70px"
     }
-    const {isLoading,refetch} = useQuery("approval",()=>leaveApppost({
-        req_id : id,
-        status:approvalStatus
-    }),{
-        enabled : false
-    });
-    if(isLoading){
-        return <>Loading....</>
-    }
+    const {mutate} = useMutation(leaveApppost);
         const getdirectRow = (obj, index) => {
             return (
                 <tr>
@@ -358,17 +383,9 @@ export function ManagerLeaveView({mdata}){
                 <td key={index+4}>{obj.employee.address}</td>
                 <td key={index+5}>{obj.from}</td>
                 <td key={index+6}>{obj.to}</td>
-                <td><button className="btn-success" id={obj.req_id} style={button} onClick={(e)=>{
-                    setApproval("A1");
-                    setId(e.target.id);
-                    refetch();
-                    console.log("fetched");
-                    }}>Approve</button></td>
-                <td><button className="btn-danger" id={obj.req_id} style={button} onClick={(e)=>{
-                    setApproval("R");
-                    setId(e.target.id);
-                    refetch();
-                    console.log("fetched");}}>Reject</button></td>
+                <td><button className="btn-success" id={obj.req_id} style={button} onClick={handleA1}>Approve</button></td>
+                <td><button className="btn-danger" id={obj.req_id} style={button} onClick={
+                    handleRej}>Reject</button></td>
                 </tr>
             )
         }
@@ -381,20 +398,11 @@ export function ManagerLeaveView({mdata}){
                 <td key={index+4}>{obj.employee.address}</td>
                 <td key={index+5}>{obj.from}</td>
                 <td key={index+6}>{obj.to}</td>
-                <td><button className="btn-success" id={obj.req_id} style={button} onClick={(e)=>{
-                    setApproval("A2");
-                    setId(e.target.id);
-                    refetch();
-                    console.log("fetched");}}>Approve</button></td>
-                <td><button className="btn-danger" id={obj.req_id} style={button} onClick={(e)=>{
-                    setApproval("R");
-                    setId(e.target.id);
-                    refetch();
-                    console.log("fetched");}}>Reject</button></td>
+                <td><button className="btn-success" id={obj.req_id} style={button} onClick={handleA2}>Approve</button></td>
+                <td><button className="btn-danger" id={obj.req_id} style={button} onClick={handleRej}>Reject</button></td>
                 </tr>
             )
         }
-        console.log(approvalStatus);
         return (
             <div>
             <div class="container">

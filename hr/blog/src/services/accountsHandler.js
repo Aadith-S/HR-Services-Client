@@ -1,17 +1,17 @@
 
 import axios from "./axiosInstances";
 
-function login(data){
+function loginform(data){
     return axios.post("/login",data)
 }
 async function profile(){
     const res = await axios.get("/profile");
     return res;
 }
-async function redirectdash(){
-    const link = await axios.get("/redirect");
+async function redirectdash(data){
+    const link = await axios.post("/redirect",data);
     console.log("In red");
     console.log(link);
     return link.data;
 }
-export {login,profile,redirectdash};
+export {loginform,profile,redirectdash};
