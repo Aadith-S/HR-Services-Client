@@ -14,7 +14,7 @@ function Manager_ViewPayslip(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
                 <ManagerSidebar/>
-                <Viewpayslip data={data.data.data}/>
+                <Viewpayslip data={data.data}/>
             </div>
         </div>
     )

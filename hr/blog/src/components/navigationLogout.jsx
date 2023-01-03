@@ -40,10 +40,10 @@ function NavigationLogout() {
     <div style={navbar}>
     <NavLink to="" style={logoLink}>
     <img src={hrlogo} style={logo} alt="LOGO"/>
-    <div style={{width:'105px',display:'flex',justifyContent:'center',alignItems:'center'}}><h2>MY HR</h2></div>
+    <div style={{width:'105px',display:'flex',justifyContent:'center',alignItems:'center'}}><h2>MY-HR</h2></div>
     </NavLink>
     
-    <NavLink to="/logout"  style={logoutButton} onClick={logout}>
+    <NavLink to="/login"  style={logoutButton} onClick={logout}>
       <h3>Logout</h3>
     </NavLink>
   </div>

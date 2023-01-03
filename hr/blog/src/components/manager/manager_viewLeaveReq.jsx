@@ -34,7 +34,7 @@ for(let i = 0; i<data.data.data.length; i++){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <ManagerSidebar/>
-            <ViewleaveRequests data={data.data.data}/>
+            <ViewleaveRequests data={data.data}/>
             </div>
         </div>
     )

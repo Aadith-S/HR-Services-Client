@@ -13,7 +13,7 @@ function Manager_attendance(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <ManagerSidebar/>
-            <ViewAttendance data={data.data.data}/>
+            <ViewAttendance data={data.data}/>
             </div>
         </div>
     )

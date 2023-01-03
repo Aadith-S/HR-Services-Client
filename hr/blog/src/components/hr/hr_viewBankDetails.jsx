@@ -23,7 +23,7 @@ function HR_viewBank(){
 
             <HR_Sidebar/>
 
-            <ViewBank data = {data.data.data}/>
+            <ViewBank data = {data.data}/>
 
             </div>
 

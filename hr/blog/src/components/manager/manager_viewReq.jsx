@@ -16,7 +16,7 @@ function Manager_viewReq(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <ManagerSidebar/>
-            <ManagerLeaveView mdata={data.data.data}/>
+            <ManagerLeaveView mdata={data.data}/>
             </div>
         </div>
     )

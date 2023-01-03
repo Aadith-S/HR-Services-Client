@@ -14,7 +14,7 @@ function HR_ViewAllPayslip(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
                 <HR_Sidebar/>
-                <ViewAllpayslip data={data.data.data}/>
+                <ViewAllpayslip data={data.data}/>
             </div>
         </div>
     )

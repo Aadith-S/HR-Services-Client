@@ -2,7 +2,7 @@ import React from "react";
 import './sidebar.css'
 
 const sidebar = {
-    height:"80vh",
+    height:"100vh",
     width:"20vw",
     backgroundColor:"beige",
     display:"flex",
@@ -17,7 +17,7 @@ export function EmployeeSidebar() {
                 <li><a href="dash" className="tag"><span></span><span>View profile</span></a></li>
                 <li><a href="reqLeave"className="tag"><span></span><span>Request leave</span></a></li>
                 <li><a href="viewLeave"className="tag"><span></span><span>View your old leave requests</span></a></li>
-                <li><a href="viewPayslip"className="tag"><span></span><span>View paysip</span></a></li>
+                <li><a href="viewPayslip"className="tag"><span></span><span>View payslip</span></a></li>
                 <li><a href="attendance"className="tag"><span></span><span>View attendence</span></a></li>
                 <li><a href="feedback"className="tag"><span></span><span>Give a feedback</span></a></li>
             </ul>
@@ -30,9 +30,10 @@ export function ManagerSidebar() {
             <ul className="sidebar">
                 <center><b><h4>MANAGER DASHBOARD</h4></b></center>  
                 <li><a href="dash" className="tag"><span></span><span>View profile</span></a></li>
-                <li><a href="leaveView" className="tag"><span></span><span>View  requests</span></a></li>
+                <li><a href="leaveView" className="tag"><span></span><span>View requests</span></a></li>
+                <li><a href="viewLeave" className="tag"><span></span><span>View your Leave status </span></a></li>
                 <li><a href="reqLeave"className="tag"><span></span><span>Request leave</span></a></li>
-                <li><a href="viewPayslip"className="tag"><span></span><span>View paysip</span></a></li>
+                <li><a href="viewPayslip"className="tag"><span></span><span>View payslip</span></a></li>
                 <li><a href="attendance"className="tag"><span></span><span>View attendence</span></a></li>
                 <li><a href="feeback"className="tag"><span></span><span>Give a feedback</span></a></li>
             </ul>

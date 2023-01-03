@@ -51,26 +51,28 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
   const login = useMutation(loginform)
+  console.log(errorMessage);
+  function seterr(err){
+    setErrorMessage(err);
+  }
   function HandleForm(e) {
     e.preventDefault();
     login.mutate({
       email: email,
       password: password
-    })
-  }
-  if(login.isSuccess){
+    });
+    if(login.isSuccess){
     if(!login.data.data.success){
-      setErrorMessage(login.data.data.errors[0]);
-      return;
+      seterr(login.data.data.errors[0]);
+      console.log(errorMessage);
     }
     else{
       localStorage.setItem('token', login.data.data.data);
-      setLoggedIn(true);
       navigate("/otp");
     }
+  }
   }
   return (
     <div>
@@ -84,7 +86,7 @@ function Login() {
           <br />
           <h1 style={h1}>Login</h1>
           <br />
-          <form onSubmit={HandleForm}>
+          <form onSubmit={(e)=>HandleForm(e)}>
             <div class="form-outline mb-4" style={{ width: "40vw" }}>
               <label class="form-label" for="email">Email address</label>
               <input type="email"
@@ -101,9 +103,9 @@ function Login() {
             </div>
             <div class="form-outline mb-4">
               <input type="checkbox" style={showPassword} />
-              <label class="form-label" for="showPassword" style={{ marginLeft: "1.5vw" }}>Show Password</label>
+              <label class="form-label" for="showPassword" style={{ marginLeft: "1.5vw" }} >Show Password</label>
             </div>
-            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+            {errorMessage && <div className="alert alert-danger col-4">{errorMessage}</div>}
             <input type="submit" class="btn btn-primary btn-block mb-4" style={{ width: "40vw" }} />
           </form>
         </div >

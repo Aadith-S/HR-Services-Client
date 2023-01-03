@@ -9,7 +9,8 @@ async function profile(){
     return res;
 }
 async function redirectdash(data){
-    const link = await axios.post("/redirect",data);
+    console.log(data);
+    const link = await axios.post("/redirect",{otp : data});
     console.log("In red");
     console.log(link);
     return link.data;

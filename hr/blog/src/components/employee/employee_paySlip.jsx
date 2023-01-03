@@ -13,7 +13,7 @@ function Employee_ViewPayslip(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
                 <EmployeeSidebar/>
-                <Viewpayslip data={data.data.data}/>
+                <Viewpayslip data={data.data}/>
             </div>
         </div>
     )

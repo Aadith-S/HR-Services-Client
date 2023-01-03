@@ -14,7 +14,7 @@ function Employee_attendence(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <EmployeeSidebar/>
-            <ViewAttendance data={data.data.data}/>
+            <ViewAttendance data={data.data}/>
             </div>
         </div>
     )
