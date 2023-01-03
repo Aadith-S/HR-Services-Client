@@ -15,7 +15,7 @@ console.log(data);
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <HR_Sidebar/>
-            <ViewAllEmployee data={data.data.data}/>
+            <ViewAllEmployee data={data.data}/>
             </div>
         </div>
     )

@@ -15,7 +15,7 @@ export function HR_dash(){
              <NavigationLogout/>
             <div style={{display:"flex"}}>
             <HR_Sidebar/>   
-            <ViewProfile data={data.data.data}/>
+            <ViewProfile data={data.data}/>
             </div>
         </div>
     )

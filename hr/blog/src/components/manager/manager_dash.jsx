@@ -18,7 +18,7 @@ function Manager_dash () {
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <ManagerSidebar/>
-            <ViewProfile data={data.data.data} hide = "hide"/>
+            <ViewProfile data={data.data} hide = "hide"/>
             </div>
         </div>
     )

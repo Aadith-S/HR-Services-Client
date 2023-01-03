@@ -18,7 +18,7 @@ function Employee_dash () {
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <EmployeeSidebar/>
-            <ViewProfile data={data.data.data} hide = "hide"/>
+            <ViewProfile data={data.data} hide = "hide"/>
             </div>
         </div>
     )

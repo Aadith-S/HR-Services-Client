@@ -32,7 +32,7 @@ for(let i = 0; i<data.data.data.length; i++){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <HR_Sidebar/>
-            <ViewAllLeaveReq data={data.data.data}/>
+            <ViewAllLeaveReq data={data.data}/>
             </div>
         </div>
     )

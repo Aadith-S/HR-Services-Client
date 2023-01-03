@@ -22,7 +22,7 @@ function HR_viewAllFeedback(){
 
             <HR_Sidebar/>
 
-            <ViewAllFeedback data={data.data.data}/>
+            <ViewAllFeedback data={data.data}/>
 
             </div>
 

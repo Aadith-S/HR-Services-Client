@@ -69,6 +69,7 @@ function Otp() {
     navigate(data);
   }
   }
+  console.log(otp);
   return (
     <div>
       <Navigation />
@@ -83,10 +84,11 @@ function Otp() {
           <form onSubmit={handleForm}>
             <div style={row}>
             <div class="form-outline mb-4" style={{ width: "20vw" }}>
-              <label class="form-label" for="email" onChange={e=>{setOtp(e.target.value)}}>Enter the otp</label>
+              <label class="form-label" for="email">Enter the otp</label>
               <input type="text"
                 name="otp"
                 class="form-control" required
+                onChange={e=>{setOtp(e.target.value)}}
               />
             </div>
             <div style={resend} class="form-outline mb-4">

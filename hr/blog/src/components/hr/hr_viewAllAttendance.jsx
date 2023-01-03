@@ -14,7 +14,7 @@ function HR_viewAllAttendance(){
             <NavigationLogout/>
             <div style={{display:"flex"}}>
             <HR_Sidebar/>
-            <ViewAllAttendance data={data.data.data}/>
+            <ViewAllAttendance data={data.data}/>
             </div>
         </div>
     )

@@ -36,7 +36,7 @@ function Navigation() {
     <div style={navbar}>
        <NavLink to="" style={logoLink}>
     <img src={hrlogo} style={logo} alt="LOGO"/>
-    <div style={{width:'105px',display:'flex',justifyContent:'center',alignItems:'center'}}><h2>MY HR</h2></div>
+    <div style={{width:'105px',display:'flex',justifyContent:'center',alignItems:'center'}}><h2>MY-HR</h2></div>
     </NavLink>
     </div>
   );
